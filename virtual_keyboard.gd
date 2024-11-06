@@ -110,6 +110,9 @@ func size_changed():
 		_hideKeyboard()
 
 func _initKeyboard():
+	var layout_list: Array = self.get_children()
+	for layout in layout_list:
+		self.remove_child(layout)
 
 	if customLayoutFile == null:
 		var defaultLayout = KeyboardDefaultLayout.new()
@@ -118,9 +121,6 @@ func _initKeyboard():
 		_createKeyboard(_loadJSON(customLayoutFile))
 	if autoShow:
 		_hideKeyboard()
-
-
-
 
 func _updateAutoDisplayOnInput(event):
 	if autoShow == false:
