@@ -101,7 +101,7 @@
 							"stretch-ratio": 2
 						},
 						{
-							"type": "special",
+							"type": "special-hide-keyboard",
 							"output": "Return",
 							"display": "OK",
 							"stretch-ratio": 0.98
