@@ -181,24 +181,13 @@ func _showLayout(layout):
 func _hideLayout(layout):
 	layout.hide()
 
-func _switchLayout(keyData):	
-	prevPrevLayout = previousLayout
-	previousLayout = currentLayout
-	layoutChanged.emit(keyData.get("layout-name"))
-	
-	for layout in layouts:
-		_hideLayout(layout)
-	
-	if keyData.get("layout-name") == "PREVIOUS-LAYOUT":
-		if prevPrevLayout != null:
-			_showLayout(prevPrevLayout)
-			return
-	
-	for layout in layouts:
+func _switchLayout(keyData):
+	var layout_list: Array = self.get_children()
+	for layout in layout_list:
 		if layout.get_meta("layout_name") == keyData.get("layout-name"):
 			_showLayout(layout)
-			return
-	
+		else:
+			_hideLayout(layout)
 	_setCapsLock(false)
 
 func _setCapsLock(value: bool):
