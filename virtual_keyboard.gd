@@ -1,4 +1,4 @@
-extends PanelContainer
+class_name VirtualKeyboard extends PanelContainer
 
 signal visibilityChanged()
 signal layoutChanged()
@@ -155,21 +155,23 @@ func _updateAutoDisplayOnInput(event):
 
 
 func _hideKeyboard(keyData=null):
-	if get_owner() == null: return
-	
+	if not self.is_inside_tree(): return
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "position", Vector2(position.x,get_viewport().get_visible_rect().size.y + 10), tweenSpeed).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(
+		self,
+		"position",
+		Vector2(position.x,get_viewport().get_visible_rect().size.y + 10), tweenSpeed).set_trans(Tween.TRANS_SINE)
 	_setCapsLock(false)
 	visibilityChanged.emit(false)
 
 
 func _showKeyboard(keyData=null):
+	if not self.is_inside_tree(): return
 	var tween = get_tree().create_tween()
 	tween.tween_property(
-		self,"position",
-		Vector2(position.x,get_viewport().get_visible_rect().size.y-size.y),
-		tweenSpeed
-	).set_trans(Tween.TRANS_SINE)
+		self,
+		"position",
+		Vector2(position.x,get_viewport().get_visible_rect().size.y-size.y), tweenSpeed).set_trans(Tween.TRANS_SINE)
 	visibilityChanged.emit(true)
 
 

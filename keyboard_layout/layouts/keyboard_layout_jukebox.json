@@ -1,0 +1,319 @@
+{
+	"debug": false,
+	"layouts": [
+		{
+			"name": "standart-characters",
+			"rows": [
+				{
+					"keys": [
+						{
+							"type": "char",
+							"output": "1",
+							"display": "1"
+						},
+						{
+							"type": "char",
+							"output": "2",
+							"display": "2"
+						},
+						{
+							"type": "char",
+							"output": "3",
+							"display": "3"
+						},
+						{
+							"type": "char",
+							"output": "4",
+							"display": "4"
+						},
+						{
+							"type": "char",
+							"output": "5",
+							"display": "5"
+						},
+						{
+							"type": "char",
+							"output": "6",
+							"display": "6"
+						},
+						{
+							"type": "char",
+							"output": "7",
+							"display": "7"
+						},
+						{
+							"type": "char",
+							"output": "8",
+							"display": "8"
+						},
+						{
+							"type": "char",
+							"output": "9",
+							"display": "9"
+						},
+						{
+							"type": "char",
+							"output": "0",
+							"display": "0"
+						},
+						{
+							"type": "special",
+							"output": "Backspace",
+							"display-icon": "PREDEFINED:DELETE",
+							"stretch-ratio": 2.05
+						}
+					]
+				},
+				{
+					"keys": [
+						{
+							"type": "char",
+							"output": "Q",
+							"display": "Q",
+							"display-uppercase": "Q"
+						},
+						{
+							"type": "char",
+							"output": "W",
+							"display": "W",
+							"display-uppercase": "W"
+						},
+						{
+							"type": "char",
+							"output": "E",
+							"display": "E",
+							"display-uppercase": "E"
+						},
+						{
+							"type": "char",
+							"output": "R",
+							"display": "R",
+							"display-uppercase": "R"
+						},
+						{
+							"type": "char",
+							"output": "T",
+							"display": "T",
+							"display-uppercase": "T"
+						},
+						{
+							"type": "char",
+							"output": "Y",
+							"display": "Y",
+							"display-uppercase": "Y"
+						},
+						{
+							"type": "char",
+							"output": "U",
+							"display": "U",
+							"display-uppercase": "U"
+						},
+						{
+							"type": "char",
+							"output": "I",
+							"display": "I",
+							"display-uppercase": "I"
+						},
+						{
+							"type": "char",
+							"output": "O",
+							"display": "O",
+							"display-uppercase": "O"
+						},
+						{
+							"type": "char",
+							"output": "P",
+							"display": "P",
+							"display-uppercase": "P"
+						},
+						{
+							"type": "char",
+							"output": "Š",
+							"display": "Š",
+							"display-uppercase": "Š"
+						},
+						{
+							"type": "char",
+							"output": "Đ",
+							"display": "Đ",
+							"display-uppercase": "Đ"
+						}
+					]
+				},
+				{
+					"keys": [
+						{
+							"type": "char",
+							"output": "A",
+							"display": "A",
+							"display-uppercase": "A"
+						},
+						{
+							"type": "char",
+							"output": "S",
+							"display": "s",
+							"display-uppercase": "S"
+						},
+						{
+							"type": "char",
+							"output": "D",
+							"display": "D",
+							"display-uppercase": "D"
+						},
+						{
+							"type": "char",
+							"output": "F",
+							"display": "F",
+							"display-uppercase": "F"
+						},
+						{
+							"type": "char",
+							"output": "G",
+							"display": "G",
+							"display-uppercase": "G"
+						},
+						{
+							"type": "char",
+							"output": "H",
+							"display": "H",
+							"display-uppercase": "H"
+						},
+						{
+							"type": "char",
+							"output": "J",
+							"display": "J",
+							"display-uppercase": "J"
+						},
+						{
+							"type": "char",
+							"output": "K",
+							"display": "K",
+							"display-uppercase": "K"
+						},
+						{
+							"type": "char",
+							"output": "L",
+							"display": "L",
+							"display-uppercase": "L"
+						},
+						{
+							"type": "char",
+							"output": "Č",
+							"display": "Č",
+							"display-uppercase": "Č"
+						},
+						{
+							"type": "char",
+							"output": "Ć",
+							"display": "Ć",
+							"display-uppercase": "Ć"
+						},
+						{
+							"type": "char",
+							"output": "Ž",
+							"display": "Ž",
+							"display-uppercase": "Ž"
+						}
+					]
+				},
+				{
+					"keys": [
+						{
+							"type": "char",
+							"output": "Z",
+							"display": "Z",
+							"display-uppercase": "Z"
+						},
+						{
+							"type": "char",
+							"output": "X",
+							"display": "X",
+							"display-uppercase": "X"
+						},
+						{
+							"type": "char",
+							"output": "C",
+							"display": "C",
+							"display-uppercase": "C"
+						},
+						{
+							"type": "char",
+							"output": "V",
+							"display": "V",
+							"display-uppercase": "V"
+						},
+						{
+							"type": "char",
+							"output": "B",
+							"display": "B",
+							"display-uppercase": "B"
+						},
+						{
+							"type": "char",
+							"output": "N",
+							"display": "N",
+							"display-uppercase": "N"
+						},
+						{
+							"type": "char",
+							"output": "M",
+							"display": "M",
+							"display-uppercase": "M"
+						},
+						{
+							"type": "char",
+							"output": ",",
+							"display": ","
+						},
+						{
+							"type": "char",
+							"output": ".",
+							"display": "."
+						},
+						{
+							"type": "char",
+							"output": "-",
+							"display": "-"
+						},
+						{
+							"type": "char",
+							"output": ":",
+							"display": ":"
+						},
+						{
+							"type": "char",
+							"output": "\"",
+							"display": "\""
+						}
+					]
+				},
+				{
+					"keys": [
+						{
+							"type": "special",
+							"output": "LeftArrow",
+							"display-icon": "PREDEFINED:LEFT",
+							"stretch-ratio": 2
+						},
+						{
+							"type": "char",
+							"output": "Space",
+							"stretch-ratio": 5
+						},
+						{
+							"type": "special",
+							"output": "RightArrow",
+							"display-icon": "PREDEFINED:RIGHT",
+							"stretch-ratio": 2
+						},
+						{
+							"type": "special-hide-keyboard",
+							"display-icon": "PREDEFINED:HIDE",
+							"stretch-ratio": 2
+						}
+					]
+				}
+			]
+		}
+	]
+}
