@@ -113,6 +113,12 @@ func _initKeyboard():
 	var layout_list: Array = self.get_children()
 	for layout in layout_list:
 		self.remove_child(layout)
+		layout.queue_free()
+
+	layouts.clear()
+	keys.clear()
+	capslockKeys.clear()
+	currentLayout = null
 
 	if customLayoutFile == null:
 		var defaultLayout = KeyboardDefaultLayout.new()
