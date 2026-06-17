@@ -159,7 +159,6 @@ func _updateAutoDisplayOnInput(event):
 				if isKeyboardFocusObjectCompleteOnEnter(focusObject):
 					_hideKeyboard()
 
-
 func _hideKeyboard(keyData=null):
 	if not self.is_inside_tree(): return
 	var tween = get_tree().create_tween()
@@ -170,7 +169,6 @@ func _hideKeyboard(keyData=null):
 	_setCapsLock(false)
 	visibilityChanged.emit(false)
 
-
 func _showKeyboard(keyData=null):
 	if not self.is_inside_tree(): return
 	var tween = get_tree().create_tween()
@@ -179,8 +177,6 @@ func _showKeyboard(keyData=null):
 		"position",
 		Vector2(position.x,get_viewport().get_visible_rect().size.y-size.y), tweenSpeed).set_trans(Tween.TRANS_SINE)
 	visibilityChanged.emit(true)
-
-
 
 func _showLayout(layout):
 	layout.show()
@@ -211,27 +207,30 @@ func _setCapsLock(value: bool):
 	for key in keys:
 		key.changeUppercase(value)
 
-
 func _triggerUppercase(keyData):
 	uppercase = !uppercase
 	_setCapsLock(uppercase)
 
-
 func _keyReleased(keyData):
 	if keyData.has("output"):
-		var keyValue = keyData.get("output")
-		var inputEventKey = InputEventKey.new()
+		var keyValue: String = keyData.get("output")
+		
+		if uppercase:
+			keyValue = keyValue.to_upper()
+		else:
+			keyValue = keyValue.to_lower()
+		
+		var inputEventKey := InputEventKey.new()
 		inputEventKey.shift_pressed = uppercase
-		inputEventKey.alt_pressed = false
-		inputEventKey.meta_pressed = false
-		inputEventKey.ctrl_pressed = false
 		inputEventKey.pressed = true
-		var keyUnicode = KeyListHandler.getUnicodeFromString(keyValue)
-		if !uppercase && KeyListHandler.hasLowercase(keyUnicode):
-			keyUnicode +=32
-		inputEventKey.keycode = keyUnicode
-		inputEventKey.unicode = keyUnicode
+		
+		if keyValue.length() == 1:
+			var code := keyValue.unicode_at(0)
+			inputEventKey.keycode = code
+			inputEventKey.unicode = code
+		
 		Input.parse_input_event(inputEventKey)
+		
 		_setCapsLock(false)
 
 func _setKeyStyle(styleName:String, key: Control, style:StyleBoxFlat):
@@ -365,7 +364,6 @@ func _loadJSON(filePath) -> Variant:
 	else:
 		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())	
 		return {"msg":json.get_error_message()}
-
 
 func _loadFile(filePath):
 	var file = FileAccess.open(filePath, FileAccess.READ)
