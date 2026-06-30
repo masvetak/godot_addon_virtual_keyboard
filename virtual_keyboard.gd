@@ -17,6 +17,11 @@ signal layoutChanged()
 		background = new_val
 	get:
 		return styleBackground
+@export var background_inner:StyleBoxEmpty = null:
+	set(new_val):
+		background_inner = new_val
+	get:
+		return background_inner
 @export var normal:StyleBoxFlat = null:
 	set(new_val):
 		styleNormal = new_val
@@ -77,8 +82,12 @@ var currentLayout = null
 # ------------------------------------------------------------------------------
 
 func _enter_tree():
-	if not self.get_tree().get_root().size_changed.is_connected(size_changed):
-		self.get_tree().get_root().size_changed.connect(size_changed)
+	if not get_tree().get_root().size_changed.is_connected(size_changed):
+		get_tree().get_root().size_changed.connect(size_changed)
+	
+	if not get_viewport().gui_focus_changed.is_connected(_on_gui_focus_changed):
+		get_viewport().gui_focus_changed.connect(_on_gui_focus_changed)
+	
 	_initKeyboard()
 
 func _input(event):
@@ -109,6 +118,15 @@ func size_changed():
 	if autoShow:
 		_hideKeyboard()
 
+func _on_gui_focus_changed(control: Control):
+	if !autoShow:
+		return
+	
+	if control != null and isKeyboardFocusObject(control):
+		_showKeyboard()
+	else:
+		_hideKeyboard()
+
 func _initKeyboard():
 	var layout_list: Array = self.get_children()
 	for layout in layout_list:
@@ -127,6 +145,13 @@ func _initKeyboard():
 		_createKeyboard(_loadJSON(customLayoutFile))
 	if autoShow:
 		_hideKeyboard()
+
+func _hideKeyboardAndReleaseFocus(keyData = null):
+	var focus := get_viewport().gui_get_focus_owner()
+	if focus != null:
+		focus.release_focus()
+	
+	_hideKeyboard(keyData)
 
 func _updateAutoDisplayOnInput(event):
 	if autoShow == false:
@@ -212,26 +237,57 @@ func _triggerUppercase(keyData):
 	_setCapsLock(uppercase)
 
 func _keyReleased(keyData):
-	if keyData.has("output"):
-		var keyValue: String = keyData.get("output")
-		
-		if uppercase:
-			keyValue = keyValue.to_upper()
+	if not keyData.has("output"):
+		return
+
+	var output: String = str(keyData.get("output"))
+	var type: String = str(keyData.get("type", "char"))
+
+	var inputEventKey := InputEventKey.new()
+	inputEventKey.pressed = true
+	inputEventKey.alt_pressed = false
+	inputEventKey.meta_pressed = false
+	inputEventKey.ctrl_pressed = false
+	inputEventKey.shift_pressed = uppercase
+
+	if type == "char":
+		var key_value := output
+
+		if key_value == "Space":
+			inputEventKey.keycode = KEY_SPACE
+			inputEventKey.unicode = 32
 		else:
-			keyValue = keyValue.to_lower()
-		
-		var inputEventKey := InputEventKey.new()
-		inputEventKey.shift_pressed = uppercase
-		inputEventKey.pressed = true
-		
-		if keyValue.length() == 1:
-			var code := keyValue.unicode_at(0)
-			inputEventKey.keycode = code
-			inputEventKey.unicode = code
-		
+			if uppercase:
+				key_value = key_value.to_upper()
+			else:
+				key_value = key_value.to_lower()
+
+			if key_value.length() > 0:
+				var code := key_value.unicode_at(0)
+				inputEventKey.keycode = code
+				inputEventKey.unicode = code
+
 		Input.parse_input_event(inputEventKey)
-		
 		_setCapsLock(false)
+		return
+
+	if type == "special":
+		match output:
+			"Backspace":
+				inputEventKey.keycode = KEY_BACKSPACE
+			"LeftArrow":
+				inputEventKey.keycode = KEY_LEFT
+			"RightArrow":
+				inputEventKey.keycode = KEY_RIGHT
+			"Enter":
+				inputEventKey.keycode = KEY_ENTER
+			_:
+				return
+
+		inputEventKey.unicode = 0
+		Input.parse_input_event(inputEventKey)
+		_setCapsLock(false)
+		return
 
 func _setKeyStyle(styleName:String, key: Control, style:StyleBoxFlat):
 	if style != null:
@@ -261,8 +317,8 @@ func _createKeyboard(layoutData):
 
 		var layoutContainer = PanelContainer.new()
 		
-		if styleBackground != null:
-			layoutContainer.add_theme_stylebox_override('panel', styleBackground)
+		if background_inner != null:
+			layoutContainer.add_theme_stylebox_override('panel', background_inner)
 		
 		if index > 0:
 			layoutContainer.hide()
@@ -276,15 +332,17 @@ func _createKeyboard(layoutData):
 		layouts.push_back(layoutContainer)
 		add_child(layoutContainer)
 		
-		var baseVbox = VBoxContainer.new()
+		var baseVbox: VBoxContainer = VBoxContainer.new()
 		baseVbox.size_flags_horizontal = SIZE_EXPAND_FILL
 		baseVbox.size_flags_vertical = SIZE_EXPAND_FILL
+		baseVbox.add_theme_constant_override("separation", 8)
 		
 		for row in layout.get("rows"):
 
 			var keyRow = HBoxContainer.new()
 			keyRow.size_flags_horizontal = SIZE_EXPAND_FILL
 			keyRow.size_flags_vertical = SIZE_EXPAND_FILL
+			keyRow.add_theme_constant_override("separation", 8)
 			
 			for key in row.get("keys"):
 				var newKey = KeyboardButton.new(key)
@@ -315,7 +373,7 @@ func _createKeyboard(layoutData):
 						capslockKeys.push_back(newKey)
 						_setKeyStyle("normal",newKey, styleSpecialKeys)
 					elif key.get("type") == "special-hide-keyboard":
-						newKey.released.connect(_hideKeyboard)
+						newKey.released.connect(_hideKeyboardAndReleaseFocus)
 						_setKeyStyle("normal",newKey, styleSpecialKeys)
 				
 				# SET ICONS
