@@ -81,6 +81,12 @@ var currentLayout = null
 # Build-in methods
 # ------------------------------------------------------------------------------
 
+func show():
+	_showKeyboard()
+	
+func hide():
+	_hideKeyboard()
+
 func _enter_tree():
 	if not get_tree().get_root().size_changed.is_connected(size_changed):
 		get_tree().get_root().size_changed.connect(size_changed)
@@ -97,10 +103,10 @@ func _input(event):
 # Public methods
 # ------------------------------------------------------------------------------
 
-func show():
+func show_keyboard():
 	_showKeyboard()
 	
-func hide():
+func hide_keyboard():
 	_hideKeyboard()
 
 func setActiveLayoutByName(layout_name):
